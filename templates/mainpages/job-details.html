@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} {{jobs.jobtitle}} - Job Find Agency {% endblock %}
+{% block content %} 
+     <section>
+          <div class="container">
+               {% include 'messages/message.html' %} 
+               <div class="row">
+                    <div class="col-lg-3 col-md-3 col-xs-12">
+                         <div>
+                              <br>
+
+                              <img src="{{jobs.employer.company_logo.url}}" alt="" class="img-responsive wc-image">
+
+                              <br>
+                         </div>
+                    </div>
+
+                    <div class="col-lg-9 col-md-9 col-xs-12">
+                         <form action="#" method="post" class="form">
+                              <h2>{{jobs.jobtitle}}</h2>
+
+                              <p class="lead"><strong class="text-primary">${{jobs.salary}}</strong> <small> per year</small></p>
+
+                              <p class="lead">
+                                   <i class="fa fa-briefcase"></i> {{jobs.jobcategory}} &nbsp;&nbsp;
+                                   <i class="fa fa-map-marker"></i> {{jobs.country.name}} &nbsp;&nbsp;
+                                   <i class="fa fa-calendar"></i> {{jobs.create_at|date:"d M Y"}} &nbsp;&nbsp;
+                                   <i class="fa fa-file"></i> {{jobs.type}} &nbsp;&nbsp;
+                                   {% if user.is_employer %}
+                                   {% if jobs.employer.user.id == request.user.id %}
+                                   <a href="{% url 'job-update' slug=jobs.slug %}"><i class="fas fa-edit"></i></a> 
+                                  <i type="button" class="fas fa-trash" data-toggle="modal" data-target="#exampleModal"></i>
+                                   {% endif %}
+                                   {% endif %}
+
+                                   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                          <div class="modal-content">
+                                            <!-- <div class="modal-header d-flex align-items-center">
+                                              <h5 class="modal-title" id="exampleModalLabel">Attention</h5>
+                                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                              </button>
+                                            </div> -->
+                                            <div class="modal-body">
+                                              Are you sure you want to delete {{jobs.jobtitle}}?
+                                            </div>
+                                            <div class="modal-footer">
+                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                              <a href="{% url 'job-delete' job.jobtitle=job.slug %}" class="btn btn-danger">Delete</a>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                              </p>
+
+                              
+                         </form>
+                    </div>
+               </div>
+
+               <div class="panel panel-default">
+                    <div class="panel-heading">
+                         <h4>Job Description</h4>
+                    </div>
+
+                    <div class="panel-body">
+                         {{jobs.description|safe}}
+                    </div>
+               </div>
+
+               <div class="panel panel-default">
+                    <div class="panel-heading">
+                         <h4>About {{jobs.employer.companyname}}</h4>
+                    </div>
+
+                    <div class="panel-body">
+                         <p>{{user.employer.companyinfo}}</p>
+
+                         <div class="row">
+                              <div class="col-lg-6">
+                                   
+                              </div>
+
+                              <div class="col-lg-6">
+                                   
+                              </div>
+                         </div>
+
+                         <div class="row">
+                              <div class="col-md-6">
+                                   <p>
+                                        <span>Company name</span>
+
+                                        <br>
+
+                                        <strong>{{jobs.employer.companyname}}</strong>
+                                   </p>
+                              </div>
+
+                              <div class="col-md-6">
+                                   <p>
+                                        <span>Contact name</span>
+
+                                        <br>
+
+                                        <strong>{{jobs.employer.user.first_name}} {{jobs.employer.user.last_name}}</strong>
+                                   </p>
+                              </div>
+                         </div>
+     
+                         <div class="row">
+                              <div class="col-md-6">
+                                   <p>
+                                        <span>Phone</span>
+
+                                        <br>
+
+                                        <strong><a href="tel:123-456-789">{{jobs.employer.phonenumber}}</a></strong>
+                                   </p>
+                              </div>
+                              <div class="col-md-6">
+                                   <p>
+                                        <span>Mobile phone</span>
+
+                                        <br>
+
+                                        <strong><a href="tel:{{jobs.employer.mobilenumber}}">{{jobs.employer.mobilenumber}}</a></strong>
+                                   </p>
+                              </div>
+                            
+                         </div>
+
+                         <div class="row">
+                              <div class="col-md-6">
+                                   <p>
+                                        <span>Email</span>
+
+                                        <br>
+
+                                        <strong><a href="mailto:{{user.email}}">{{jobs.employer.user.email}}</a></strong>
+                                   </p>
+                              </div>
+
+                              <div class="col-md-6">
+                                   <p>
+                                        <span>Website</span>
+
+                                        <br>
+
+                                        <strong><a href="{{user.employer.website}}">{{jobs.employer.website}}</a></strong>
+                                   </p>
+                              </div>
+                         </div>
+
+                         <p>
+                              <span>Country</span>
+
+                              <br>
+
+                              <strong>{{jobs.employer.city}}</strong>
+                         </p>
+                    </div>
+               </div>
+
+               <div class="clearfix">
+                    {% if user.is_employer %}
+                    {% else %}
+                    <button type="button" class="section-btn btn btn-primary pull-left" data-toggle="modal" data-target=".bd-example-modal-lg">APPLY</button>
+                    <!-- <a href="#" class="section-btn btn btn-primary pull-left">Apply for this job</a> -->
+                    {% endif %}
+
+                    <ul class="social-icon pull-right">
+                         <li><a href="#" class="fab fa-facebook"></a></li>
+                         <li><a href="mailto:?subject={{jobs.jobtitle}}&amp;body=Check out this job: {{request.build_absolute_uri}}"
+                              title="Share by Email" class="fas fa-envelope-o"></a></li>
+                         <li><a href="#" class="fab fa-linkedin"></a></li>
+                    </ul>
+               </div>
+
+               
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+     <div class="modal-dialog modal-lg" role="document">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="exampleModalLabel">Apply {{jobs.jobtitle}} position.</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+           </button>
+         </div>
+         <div class="modal-body">
+           <form>
+             <div class="form-group">
+               <label for="recipient-name" class="col-form-label">Fisrt name:</label>
+               <input type="text" class="form-control" id="recipient-name">
+             </div>
+             <div class="form-group">
+               <label for="recipient-name" class="col-form-label">Last name:</label>
+               <input type="text" class="form-control" id="recipient-name">
+             </div>
+             <div class="form-group">
+               <label for="recipient-name" class="col-form-label">Cv:</label>
+               <input type="file" class="form-control" id="recipient-name">
+             </div>
+             <div class="form-group">
+               <label for="message-text" class="col-form-label">Cover letter:</label>
+               <textarea class="form-control" id="message-text"></textarea>
+             </div>
+           </form>
+         </div>
+         <div class="modal-footer">
+           <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+           <button type="button" class="btn btn-primary">Apply</button>
+         </div>
+       </div>
+     </div>
+   </div>
+          </div>
+     </section>
+     {% endblock %}

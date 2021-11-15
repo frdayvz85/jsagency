@@ -1,0 +1,15 @@
+{% if messages %}
+        {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+        <div class="myAlert alert-success">
+            <p>{{message}}</p>
+            <i class="fas fa-times"></i>
+          </div> 
+          {% else %}
+          <div class="myAlert alert-danger">
+            <p>{{message}}</p>
+            <i class="fas fa-times"></i>
+          </div> 
+          {% endif %}
+        {% endfor %}
+{% endif %}

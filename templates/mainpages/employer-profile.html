@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block title %} {{request.user.username}} - Job Search Agency {% endblock %}
+
+
+{% block style_content %}
+
+    <div id="employee-profile" class="container">
+      <h2 class="title">Employer profile</h2>
+      <div class="line"></div>
+      <div class="employee-profile-section">
+
+          <div class="left">
+                {% if request.user.employer.company_logo %}
+                  <img  class="user-img" src="{{request.user.employer.company_logo.url}}" alt="Company logo"/>
+                  {% else %}
+                  <img  class="user-img" src="{% static 'assets/images/companyLogo.jpg' %}" alt="Company logo"/>
+                  {% endif %}
+              <a href="{% url 'password-change' %}" class="btn-submit">Change password</a>
+              <a href="{% url 'shared-jobs' %}" class="btn-submit">Shared jobs</a>
+          </div>
+
+          <div class="right">
+              {% include 'messages/message.html' %} 
+              {% if form.errors or userForm.errors %}
+              <div class="myAlert alert-danger" role="alert">
+              {{form.errors}}
+              </div>
+              {% endif %} 
+              <h2>Personal information</h2>
+              <form method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="form-wrapper">
+                      <div class="form-control-own">
+                          <label for="username">First name</label>
+                          {{userForm.first_name}}
+                      </div>
+                      <div class="form-control-own">
+                          <label for="username">First name</label>
+                          {{userForm.last_name}}
+                      </div>
+                  </div>
+                  <div class="form-wrapper">
+                      <div class="form-control-own">
+                          <label for="username">Username</label>
+                          {{userForm.username}}
+                      </div>
+                      <div class="form-control-own">
+                          <label for="email">Email</label>
+                          {{userForm.email}}
+                      </div>
+                  </div>
+                  <div class="form-wrapper">
+                      <div class="form-control-own">
+                          <label for="phoneNumber">Phone number</label>
+                          {{form.phonenumber}}
+                      </div>
+                      <div class="form-control-own">
+                          <label for="profession">Mobile number</label>
+                          {{form.mobilenumber}}
+                      </div>
+                  </div>
+                  <div class="form-wrapper">
+                      <div class="form-control-own">
+                          <label for="website">Website</label>
+                          {{form.website}}
+                      </div>
+                      <div class="form-control-own">
+                          <div class="form-group">
+                              <label for="country">Country</label>
+                              {{form.city}}
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="form-wrapper">
+                      <div class="form-control-own">
+                          <label for="profession">Company name</label>
+                          {{form.companyname}}
+                      </div>
+                  </div>
+                  <div class="form-wrapper">
+                      <div class="form-control-own">
+                          <label for="info">Company information</label>
+                          {{form.companyinfo}}
+                      </div>
+                  </div>
+                  <div class="form-wrapper">
+                      <div class="form-control-own upload-img">
+                          {{form.profile_pic}}
+                          <label>Photo</label>
+                          <label for="file1">
+                              <img src="https://cdn3.iconfinder.com/data/icons/iconic-1/32/plus_alt-256.png"
+                                  class="upload-img default" alt="">
+                          </label>
+                      </div>
+                      <div class="form-control-own upload-img">
+                          {{form.company_logo}}
+                          <label>Company logo</label>
+                          <label for="file2">
+                              <img src="https://cdn3.iconfinder.com/data/icons/iconic-1/32/plus_alt-256.png"
+                                  class="upload-img1 default" alt="">
+                          </label>
+                      </div>
+                  </div>
+                  <button type="submit" class="btn-submit">
+                      Update profile
+                  </button>
+              </form>
+          </div>
+
+      </div>
+       
+    </div>
+
+
+    </div>
+    </div>
+    {% endblock %}

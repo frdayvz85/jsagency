@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Employer Register - Job Search Agency {% endblock %}
+
+{% block content %} 
+
+ {% include './load.html' %}
+
+
+     <section>
+          <div class="container">
+               {% include 'messages/message.html' %} 
+               <h2>{{post.title}}</h2>
+               <p class="lead">
+                    <i class="fa fa-user"></i> {{post.author}} &nbsp;&nbsp;&nbsp;
+                    <i class="fa fa-calendar"></i> {{post.created_date|date:"d M Y"}} &nbsp;&nbsp;&nbsp;
+                    <i class="fa fa-eye"></i> {{post.view_count}} &nbsp;&nbsp;&nbsp;
+                    {% if request.user.is_superuser %}
+                    <a href="{% url 'blog-update' slug=post.slug %}"><i class="fas fa-edit"></i></a> &nbsp;&nbsp;&nbsp;
+                  <!-- <li class="btn btn-danger"><a href="{% url 'blog-delete' slug=post.slug %}">Delete</a></li> -->
+                  <i type="button" class="fas fa-trash" data-toggle="modal" data-target="#exampleModal"></i>
+                  <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal-dialog" role="document">
+       <div class="modal-content">
+         <!-- <div class="modal-header d-flex align-items-center">
+           <h5 class="modal-title" id="exampleModalLabel">Attention</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+           </button>
+         </div> -->
+         <div class="modal-body">
+           Are you sure you want to delete {{post.title}}?
+         </div>
+         <div class="modal-footer">
+           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+           <a href="{% url 'blog-delete' slug=post.slug %}" class="btn btn-danger">Delete</a>
+         </div>
+       </div>
+     </div>
+   </div>
+                  {% endif %}
+               </p>
+
+               <img src="{{post.image.url}}" class="img-responsive" alt="">
+
+               <br>
+               <article>
+                    {{post.content|safe}}
+               </article>
+               <br>
+
+               <div class="post-options">
+                    <div class="row">
+                      <div class="col-6">
+                        
+                      </div>
+                      <div class="col-6">
+                        <ul class="post-share">
+                            {% for tag in post.tags.all %}
+                          <li class="btn btn-outline-warning btn-primary"> {{tag}}</li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+               <div class="row">
+                    <div class="col-md-4 col-xs-12 pull-right">
+                         <h4>Social share</h4>
+
+                         <p>
+                              <a href="https://www.facebook.com/sharer/sharer.php?u={{request.build_absolute_uri}}" target="_blank"><i class="fab fa-facebook"></i></a> &nbsp;&nbsp;&nbsp;
+
+                              <a href="https://twitter.com/intent/tweet?url={{request.build_absolute_uri}}&text={{post.title}}" target="_blank"><i class="fab fa-twitter"></i></a> &nbsp;&nbsp;&nbsp;
+
+                              <a href="https://www.linkedin.com/sharing/share-offsite/?url={{request.build_absolute_uri}}" target="_blank"><i class="fab fa-linkedin"></i></a>
+                         </p>
+
+                         <br>
+
+
+                         <h4>Other posts</h4>
+
+                         <ul class="list">
+                              <li><a href="blog-post-details.html">Lorem ipsum dolor sit amet, consectetur adipisicing.</a></li>
+                              <li><a href="blog-post-details.html">Et animi voluptatem, assumenda enim, consectetur quaerat!</a></li>
+                              <li><a href="blog-post-details.html">Ducimus magni eveniet sit doloremque molestiae alias mollitia vitae.</a></li>
+                         </ul>
+                    </div>
+                    <div id="comments-section" class="col-md-8 col-xs-12">
+                         <h4>{{post.comment_count}} {% if post.comment_count > 1 %} Comments {% else %} Comment {% endif %}</h4>
+
+                         {% for comment in post.get_comments %}
+                         <div class="comment-load">
+                              <div class="user-wrapper">
+                                   {% if comment.user.admin %}
+                                   <img src="{{comment.user.admin.profile_pic.url}}" alt="">
+                                   {% endif %}
+                                   {% if comment.user.employee %}
+                                   <img src="{{comment.user.employee.profile_pic.url}}" alt="">
+                                   {% endif %}
+                                   {% if comment.user.employer %}
+                                   <img src="{{comment.user.employer.profile_pic.url}}" alt="">
+                                   {% endif %}
+                                   <div class="user-name">{{comment.user.first_name}} {{comment.user.last_name}} <br><span>{{comment.timestamp|date:"d M Y"}}</span></div>
+                              </div>
+                              <p>
+                                   {{comment.content}}
+                              </p>
+
+                         </div>
+                         {% endfor %}
+
+                         {% if post.comment_count > 4 %}
+                    
+                         <a id="loadMore">Load More</a> 
+                         {% endif %}
+                         <!-- <p>No comments found.</p> -->
+                         <br>
+
+                         <h4>Leave a Comment</h4>
+                         {% if user.is_authenticated %}
+                         <form method="POST" class="form">
+                              {% csrf_token %}
+                              <div class="form-group">
+                                   {{form}}
+                              </div>
+
+                              <button type="submit" class="section-btn btn btn-primary">Submit</button>
+                         </form>
+                         {% else %}
+                         <form method="POST" class="form">
+                              {% csrf_token %}
+                              <div class="form-group">
+                                   {{form}}
+                              </div>
+
+                              <a href="{% url 'login' %}" class="section-btn btn btn-primary">Submit</a>
+                         </form>
+                         {% endif %}
+                    </div>   
+               </div>
+          </div>
+     </section>
+     {% endblock %}

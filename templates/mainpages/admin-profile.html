@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} {{request.user.username}} - Job Search Agency {% endblock %}
+
+{% block style_content %}
+
+    <div id="employee-profile" class="container">
+        <h2 class="title">Admin profile</h2>
+        <div class="line"></div>
+        <div class="employee-profile-section">
+            <div class="left">
+                {% if request.user.admin.profile_pic %}
+                <img  class="user-img" src="{{request.user.admin.profile_pic.url}}" alt="Profile photo"/>
+                {% else %}
+                <img  class="user-img" src="{% static 'assets/images/default.png' %}" alt="Profile photo"/>
+                {% endif %}
+                <button class="btn-submit">Change password</button>
+            </div>
+                       
+            <div class="right">
+            <!---------------Message ----------->
+            {% include 'messages/message.html' %}
+            {% if form.errors or userForm.errors %}
+            <div class="myAlert alert-danger" role="alert">
+                {{form.errors}}
+                {{userForm.errors}}
+            </div>
+            {% endif %} 
+                <h2>Personal information</h2>
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-wrapper">
+                        <div class="form-control-own">
+                            <label for="firstName">First name</label>
+                            {{userForm.first_name}}
+                        </div>
+
+                        <div class="form-control-own">
+                            <label for="lastName">Last name</label>
+                            {{userForm.last_name}}
+                        </div>
+                    </div>
+                    <div class="form-wrapper">
+                        <div class="form-control-own">
+                            <label for="username">Username</label>
+                            {{userForm.username}}
+                        </div>
+                        <div class="form-control-own">
+                            <label for="email">Email</label>
+                            {{userForm.email}}
+                        </div>
+                    </div>
+                    <div class="form-wrapper">
+                        <div class="form-control-own upload-img">
+                           {{form.profile_pic}}
+                            <label>Photo</label>
+                            <label for="file1">
+                                <img src="https://cdn3.iconfinder.com/data/icons/iconic-1/32/plus_alt-256.png"
+                                    class="upload-img default" alt="">
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-submit">
+                        Update profile
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+
+    </div>
+    </div>
+    {% endblock %}

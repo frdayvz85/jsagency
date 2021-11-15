@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Employer Register - Job Search Agency {% endblock %}
+
+{% block content %} 
+
+    <div id="employee-register" class="container">
+        <h2 class="title">Employer Register</h2>
+        <div class="line"></div>
+        <div class="employee-register-section">
+                <!---------------Message ----------->
+                    {% include 'messages/message.html' %}
+                    {% if form.errors %}
+                    <div class="myAlert alert-danger" role="alert">
+                    {{form.errors}}
+                    </div>
+                {% endif %} 
+                <form method="POST">
+                    {% csrf_token %}
+                <div class="form-wrapper">
+                    <div class="form-control-own">
+                        <label for="firstName">First name</label>
+                        {{form.first_name}}
+                    </div>
+
+                    <div class="form-control-own">
+                        <label for="lastName">Last name</label>
+                        {{form.last_name}}
+                    </div>
+                </div>
+                <div class="form-wrapper">
+                    <div class="form-control-own">
+                        <label for="username">Username</label>
+                        {{form.username}}
+                    </div>
+                    <div class="form-control-own">
+                        <label for="email">Email</label>
+                        {{form.email}}
+                    </div>
+                </div>
+                <div class="form-wrapper">
+                    <div class="form-control-own">
+                        <label for="phoneNumber">Phone number</label>
+                        {{profile_form.phonenumber}}
+                    </div>
+                    <div class="form-control-own">
+                        <label for="website">Website</label>
+                        {{profile_form.website}}
+                    </div>
+                </div>
+                <div class="form-wrapper">
+                    <div class="form-control-own">
+                        <div class="form-group">
+                            <label for="country">Country</label>
+                            {{profile_form.city}}
+                        </div>
+                    </div>
+
+                    <div class="form-control-own">
+                        <label for="companyName">Company name</label>
+                        {{profile_form.companyname}}
+                    </div>
+                </div>
+                <div class="form-wrapper">
+                    <div class="form-control-own">
+                        <label for="password">Password</label>
+                        {{form.password1}}
+                    </div>
+
+                    <div class="form-control-own">
+                        <label for="passwordConfirm">Password confirm</label>
+                        {{form.password2}}
+                    </div>
+                </div>
+                <div class="down">
+                    <p>Do you have an account? <a href="{% url 'login' %}">Login</a></p>
+                    <button type="submit" class="btn-submit">Register</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    </div>
+    </div>
+{% endblock %}
+
+
+
+ 

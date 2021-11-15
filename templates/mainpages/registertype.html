@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Register Type - Job Find Agency {% endblock %}
+{% block content %} 
+
+<div id="register">
+  <div class="card-job">
+      <img class="card-img-top"
+          src="https://images.ctfassets.net/az51l532ei6u/3aQJEZ11ZujZZk6bnhZnch/c7184088f4b1d57937a3dce91433e294/How_to_Become_an_Employer_of_Choice.jpg?w=1170&q=75"
+          alt="Card image cap">
+      <div class="card-body">
+          <h2 class="card-title">Employee</h2>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+              card's content.</p>
+          <a href="{% url 'registerUser' %}" class="btn-submit">Continue</a>
+      </div>
+  </div>
+  <div class="card-job">
+      <img class="card-img-top" src="https://www.computercareers.org/wp-content/uploads/Employer-IT.jpg"
+          alt="Card image cap">
+      <div class="card-body">
+          <h2 class="card-title">Employer</h2>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+              card's content.</p>
+          <a href="{% url 'registerEmployer' %}" class="btn-submit">Continue</a>
+      </div>
+  </div>
+</div>
+
+
+
+{% endblock %}

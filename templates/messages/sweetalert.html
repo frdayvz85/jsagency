@@ -1,0 +1,29 @@
+{% block script_content %}
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  {% if messages %}
+        {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+          <script>
+              Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: '{{message}}',
+                showConfirmButton: false,
+                timer: 3500
+          });
+          </script>
+          {% else %}
+          <script>
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: '{{message}}',
+              showConfirmButton: false,
+              timer: 3500
+        });
+        </script>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+
+{% endblock %}

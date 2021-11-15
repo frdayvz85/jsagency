@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Jobs - Job Find Agency {% endblock %}
+{% block content %} 
+
+    <!-- Page Content -->
+    <!-- Banner Starts Here -->
+    <div class="heading-page header-text">
+      <section class="page-heading">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <div data-aos="zoom-in-right" data-aos-delay="800" class="text-content">
+                <h4>Jobs</h4>
+                <h2>Choose the perfect job!</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    
+    <!-- Banner Ends Here -->
+
+    <section class="blog-posts grid-system">
+      <div class="container">
+        <!---------------Message ----------->
+				{% if messages %}
+        {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          {% else %}
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          {% endif %}
+          {% endfor %}		
+          {% endif %}
+        <div class="all-blog-posts">
+          <div class="row">
+            <div data-aos="zoom-in" class="col-md-4 col-xs-12">
+                <form action="" method="GET">
+                 <h4 style="margin-bottom: 15px">Type</h4>
+
+        
+                 <div>
+                  <label>
+                    {% for type_count in type_counts %}
+                       <input type="checkbox" name="type" value="{{type_count.type}}">
+
+                       <span>{{type_count.type}} ({{type_count.type__count}})</span>
+                       <br>
+                       {% endfor %}
+                  </label>
+                 </div>
+            
+                
+
+                 <br>
+
+
+                 <h4 style="margin-bottom: 15px">Education levels</h4>
+
+                
+                 <div>
+                      <label>
+                        {% for level_count in level_counts %}
+                           <input type="checkbox" name="level" value="{{level_count.level}}">
+
+                           <span>{{level_count.level}} ({{level_count.level__count}})</span>
+                           <br>
+                           {% endfor %}
+                      </label>
+                 </div>
+                 <br>
+
+
+                 <h4 style="margin-bottom: 15px">Years of experience</h4>
+
+                 <div>
+                      <label>
+                        {% for expereince_count in expereince_counts %}
+                           <input type="checkbox" name="experience" value="{{expereince_count.experience}}">
+                            <span>{{expereince_count.experience}} ({{expereince_count.experience__count}})</span>
+                            <br>
+                            {% endfor %}
+                      </label>
+                 </div>
+                 <div>           
+                 </div>
+                 <br>
+                 <div>
+                  <div class="form-group">
+                    <h4 style="margin-bottom: 15px">Categories</h4>
+                    <select name="category" id="category" class="form-control">
+                      <option selected>Choose...</option>
+                      {% for cat in categories %}
+                      <option value="{{cat}}">{{cat}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  
+                 </div>
+                 <div>
+                   <input class="btn btn-warning btn-lg btn-block mt-3 mb-5" type="submit" value="Search"/>
+                 </div>
+                </form>
+                
+            </div>
+
+            <div class="col-md-8 col-xs-12">
+              <div class="row">
+                {% for job in queryset %}
+                <div data-aos="flip-right" class="col-sm-6 boxSh">
+                  <div class="blog-post">
+                    <div class="blog-thumb">
+                      <img src="{{job.image.url}}" height="300" alt="">
+                    </div>
+                    <div class="down-content">
+                      <span>${{job.salary}}</span>
+                      <a href="{{job.get_absolute_url }}"><h4>{{job.jobtitle}}</h4></a>
+                      <p>{{job.overview}}</p>
+                      <div class="post-options">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <ul class="post-tags">
+                              <li><i class="fa fa-bullseye"></i></li>
+                              <li><a href="{{job.get_absolute_url }}">View Job</a></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+              <div class="col-lg-12">
+                <ul class="page-numbers">
+                  {% if queryset.has_previous %} 
+                  <li><a href="?{{ page_request_var }}={{ queryset.previous_page_number }}"><i class="fa fa-angle-double-left"></i></a></li>
+                  {% endif %}
+                  <li class="active"><a href="?{{ page_request_var }}={{ queryset.number }}">{{ queryset.number }}</a></li>
+                  {% if queryset.has_next %}
+                  <li><a href="?{{ page_request_var }}={{ queryset.next_page_number }}"><i class="fa fa-angle-double-right"></i></a></li>
+                  {% endif %}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          
+        </div>
+      </div>
+    </section>
+
+ {% endblock %}

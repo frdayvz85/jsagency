@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Login - Job Find Agency {% endblock %}
+{% block content %} 
+    <!-- Page Content -->
+    <div id="login" class="container">
+      <h2 class="title">Login</h2>
+      <div class="line"></div>
+      <div class="login-section">
+        {% include 'messages/message.html' %} 
+        <form method="POST">
+            {% csrf_token %}
+              <div class="form-control-own">
+                  <label for="username">Username</label>
+                  <input class="form-control" id="username" name="username" type="text" placeholder="Enter your username">
+              </div>
+              <div class="form-control-own">
+                  <label for="password">Password</label>
+                  <input class="form-control" id="password" name="password" type="password" placeholder="Enter your password">
+              </div>
+              <div class="down">
+                  <p>Don’t have an account? <a href="{% url 'registerType' %}">Register</a></p>
+                  <p>Forgot password? <a href="{% url 'reset_password' %}">Reset</a></p>
+              </div>
+              <button type="submit" class="btn-submit">Login</button>
+          </form>
+      </div>
+  </div>
+
+
+  <!-- {% block script_content %}
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  {% if messages %}
+        {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+          <script>
+              Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: '{{message}}',
+                showConfirmButton: false,
+                timer: 3500
+          });
+          </script>
+          {% else %}
+          <script>
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: '{{message}}',
+              showConfirmButton: false,
+              timer: 3500
+        });
+        </script>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+  {% endblock %} -->
+
+{% endblock %}

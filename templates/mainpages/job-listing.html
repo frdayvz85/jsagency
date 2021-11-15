@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+{% load static %}
+{% load countries %}
+
+{% block title %} Jobs - Job Search Agency {% endblock %}
+{% block content %} 
+     <section>
+          <div class="container">
+               <div class="text-center">
+                    <h1>Jobs</h1>
+
+                    <br>
+
+                    <p class="lead">You can find many jobs from here.</p>
+               </div>
+          </div>
+     </section>
+
+     <section class="section-background">
+          <div class="container">
+
+               <div class="row">
+                    <div class="col-lg-3 col-xs-12">
+                         <div class="form">
+                              <form action="" method="GET">
+                                   <h4>Type</h4>
+
+                                   {% for type_count in type_counts %}
+                                   <div>
+                                        <label>
+                                             <input type="checkbox" name="type" value="{{type_count.type}}">
+
+                                             {{type_count.type}} ({{type_count.type__count}})
+                                        </label>
+                                   </div>
+                                   {% endfor %}
+                                   <br>
+
+                                   <h4>Work type</h4>
+                                   {% for worktype_count in worktype_counts %}
+                                   <div>
+                                        <label>
+                                             <input type="checkbox" name="worktype" value="{{type_count.worktype}}">
+
+                                             {{worktype_count.worktype}} ({{worktype_count.type__count}})
+                                        </label>
+                                   </div>
+                                   {% endfor %}
+                                   <br>
+
+                                   <h4>Education levels</h4>
+
+                                   {% for level_count in level_counts %}
+                                   <div>
+                                        <label>
+                                             <input type="checkbox" name="level" value="{{level_count.level}}">
+                                             {{level_count.level}} ({{level_count.level__count}})
+                                        </label>
+                                   </div>
+                                   {% endfor %}
+                                   <br>
+
+
+                                   <h4>Years of experience</h4>
+                                   {% for expereince_count in expereince_counts %}
+                                   <div>
+                                        <label>
+                                             <input type="checkbox" name="experience" value="{{expereince_count.experience}}">
+
+                                             {{expereince_count.experience}} ({{expereince_count.experience__count}})
+                                        </label>
+                                   </div>
+                                   {% endfor %}
+                                   <br>
+                                   <div>
+                                        <h4 style="margin-bottom: 15px">Categories</h4>
+                                        <select name="category" id="category" class="form-control">
+                                          <option selected>Choose...</option>
+                                          {% for cat in categories %}
+                                          <option value="{{cat}}">{{cat}}</option>
+                                          {% endfor %}
+                                        </select>
+                                      </div>
+                                      <div>
+                                        <input class="btn btn-warning btn-lg btn-block mt-3 mb-5" type="submit" value="Search"/>
+                                      </div>
+                              </form>
+                         </div>
+                    </div>
+
+                    <div class="col-lg-9 col-xs-12">
+                         <div class="row">
+                              {% for job in queryset %}
+                              <div class="col-lg-6 col-md-4 col-sm-6">
+                                   <div class="courses-thumb courses-thumb-secondary">
+                                        <div class="courses-top">
+                                             <div class="courses-image">
+                                                  <img src="{{job.employer.company_logo.url}}" class="img-responsive" alt="">
+                                             </div>
+                                             <div class="courses-date">
+                                                  <span title="Posted on"><i class="fa fa-calendar"></i> {{job.create_at|date:"d M Y"}}</span>
+                                                  <span title="Location"><i class="fa fa-map-marker"></i> {{job.country.name}}</span>
+                                                  <span title="Type"><i class="fa fa-file"></i> {{job.type}}</span>
+                                             </div>
+                                        </div>
+
+                                        <div class="courses-detail">
+                                             <h3><a href="{{job.get_absolute_url }}">{{job.jobtitle}}</a></h3>
+
+                                             <p class="lead"><strong>${{job.salary}}</strong></p>
+
+                                             <p> <strong>{{job.jobcategory}}</strong></p>
+                                             <p> {{job.overview|truncatechars:125}}</p>
+                                        </div>
+
+                                        <div class="courses-info">
+                                             <a href="{{job.get_absolute_url }}" class="section-btn btn btn-primary btn-block">View Details</a>
+                                        </div>
+                                   </div>
+                              </div>
+                              {% endfor %}
+                              <div class="col-lg-12 text-center">
+                                   <ul class="pagination">
+                                     {% if queryset.has_previous %} 
+                                     <li class="page-item"><a href="?{{ page_request_var }}={{ queryset.previous_page_number }}" class="page-link"><i class="fa fa-angle-double-left"></i></a></li>
+                                     {% endif %}
+                                     <li class="page-item active"><a href="?{{ page_request_var }}={{ queryset.number }}" class="page-link">{{ queryset.number }}</a></li>
+                                     {% if queryset.has_next %}
+                                     <li class="page-item"><a href="?{{ page_request_var }}={{ queryset.next_page_number }}" class="page-link"><i class="fa fa-angle-double-right"></i></a></li>
+                                     {% endif %}
+                                   </ul>
+                                 </div>
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </section>
+
+
+
+     <div class="modal fade bs-example-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+               <div class="modal-content">
+                    <div class="modal-header">
+                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                         <h4 class="modal-title" id="gridSystemModalLabel">Book Now</h4>
+                    </div>
+                    
+                    <div class="modal-body">
+                         <form action="#" id="contact-form">
+                              <div class="row">
+                                   <div class="col-md-6">
+                                        <input type="text" class="form-control" placeholder="Pick-up location" required>
+                                   </div>
+
+                                   <div class="col-md-6">
+                                        <input type="text" class="form-control" placeholder="Return location" required>
+                                   </div>
+                              </div>
+
+                              <div class="row">
+                                   <div class="col-md-6">
+                                        <input type="text" class="form-control" placeholder="Pick-up date/time" required>
+                                   </div>
+
+                                   <div class="col-md-6">
+                                        <input type="text" class="form-control" placeholder="Return date/time" required>
+                                   </div>
+                              </div>
+                              <input type="text" class="form-control" placeholder="Enter full name" required>
+
+                              <div class="row">
+                                   <div class="col-md-6">
+                                        <input type="text" class="form-control" placeholder="Enter email address" required>
+                                   </div>
+
+                                   <div class="col-md-6">
+                                        <input type="text" class="form-control" placeholder="Enter phone" required>
+                                   </div>
+                              </div>
+                         </form>
+                    </div>
+
+                    <div class="modal-footer">
+                         <button type="button" class="section-btn btn btn-primary">Book Now</button>
+                    </div>
+               </div>
+          </div>
+     </div>
+{% endblock %}

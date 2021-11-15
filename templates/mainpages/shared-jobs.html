@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block title %} {{request.user.username}} - Job Search Agency {% endblock %}
+
+
+{% block style_content %}
+
+    <div id="employee-profile" class="container">
+      <h2 class="title">Shared jobs </h2>
+      <div class="line"></div>
+      <div class="employee-profile-section">
+        <div class="panel1">
+            {% for job in jobs %}
+            <div class="panel-element">
+                <div class="element-actions">
+                    <button class="btn1 btn-action btn-hide"><i class="fas fa-edit"></i></button>
+                    <button class="btn1 btn-action btn-heart" type="button" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash-alt" title="Delete"></i></button>
+                </div>
+                
+                <div class="element-content">
+                    <button class="btn1 btn-more">
+                        <i class="fa fa-ellipsis-h icon-closed"></i>
+                        <i class="fa fa-times icon-open"></i>
+                        <i class="fas fa-trash-alt icon-hearted"></i>
+                    </button>
+                    
+                    <div class="content-post">
+                        <div class="post-avatar">
+                            <img width="60" src="https://res.cloudinary.com/job-search-agency/image/upload/v1/images/companyLogo_gvh8fe" alt="">
+                        </div>
+        
+                        <div class="post-content">
+                            <a href="{{job.get_absolute_url}}" class="post-title">{{job.jobtitle}} <i>{{job.create_at|date:"d M Y"}}</i></a>
+                            <p class="post-body">{{job.overview|truncatechars:200}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                  
+                    <div class="modal-body">
+                        <p class="delete-header"><i class="fas fa-trash-alt"></i></p>
+                      <h5 class="delete-body-text">Are you sure you want to delete {{job.jobtitle}}?</h5>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                      <a href="" class="btn btn-danger">Delete</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+        </div>
+      </div>
+       
+    </div>
+
+
+    </div>
+    </div>
+    {% endblock %}

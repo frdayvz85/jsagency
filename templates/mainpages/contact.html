@@ -1,0 +1,99 @@
+{% extends "base.html" %} 
+{% load static %} 
+{% block title %} Contact - Job Search Agency {% endblock %} 
+{% block content %}
+
+<section class="contact-header-wrapper">
+  <div class="container">
+    <div class="text-center">
+      <h1>Contact Us</h1>
+      <div style="margin: 0 auto; width: 180px" class="line"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-sm-12">
+        <form id="contact-form" role="form" method="POST" >
+          {% csrf_token %}
+          <div class="col-md-12 col-sm-12">
+               {{form.name}}
+
+               {{form.email}}
+
+               {{form.subject}}
+
+               {{form.message}}
+          </div>
+
+          <div class="col-md-4 col-sm-12">
+            <button type="submit" class="send-msg form-control btn-submit">
+              Send message
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div style="margin-top: 25px" class="col-md-6 col-sm-12">
+        <div class="contact-info">
+          <i class="fas fa-phone"></i>
+          <h4>{{contactInfo.phonenumber}}</h4>
+        </div>
+        <div class="contact-info">
+          <i class="fas fa-envelope"></i>
+          <h4>{{contactInfo.email}}</h4>
+        </div>
+        <div class="contact-info">
+          <i class="fas fa-map-pin"></i>
+          <h4>{{contactInfo.address}}</h4>
+        </div>
+        <div class="contact-info">
+          <i class="fas fa-linkedin"></i>
+          <h4>{{contactInfo.address}}</h4>
+        </div>
+      </div>
+
+      <iframe
+        style="margin-top: 24px; width: 100%; border: none"
+        src="{{contactInfo.addressUrl}}"
+        height="450"
+        style="border: 0"
+        allowfullscreen=""
+        loading="lazy"
+      ></iframe>
+    </div>
+  </div>
+</section>
+
+{% include 'messages/sweetalert.html' %}
+
+{% block script_content %}
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script type="text/javascript">
+        (function() {
+            // https://dashboard.emailjs.com/admin/integration
+            emailjs.init('user_sGsF8r7kD6qgyHRc5qvhZ');
+        })();
+    </script>
+    <script type="text/javascript">
+        window.onload = function() {
+            document.getElementById('contact-form').addEventListener('submit', function(event) {
+                // event.preventDefault();
+                // these IDs from the previous steps
+                emailjs.sendForm('service_twzlwug', 'template_teunn6e', this)
+                    .then(function() {
+                        console.log('SUCCESS!');
+                    }, function(error) {
+                        console.log('FAILED...', error);
+                    });
+            });
+        }
+    </script>
+
+
+{% endblock %}
+
+{% endblock %}
