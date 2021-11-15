@@ -166,3 +166,9 @@ class SubscribeAdmin(admin.ModelAdmin):
     list_filter = ['email']
 
 admin.site.register(Subscribe, SubscribeAdmin)
+
+class ApplicationAdmin(admin.ModelAdmin):
+    list_display = ['employee', 'timestamp']
+    list_filter = ['employee']
+
+admin.site.register(Application, ApplicationAdmin)

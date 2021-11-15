@@ -7,13 +7,14 @@ from django.contrib.auth import update_session_auth_hash
 import hashlib
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth import authenticate, login, logout
-from .forms import CommentForm, SignUpForm, ContactFormu, PostForm,JobForm,UserForm,AdminForm,EmployerForm, EmployeeForm,SignUpFormEmployer,PasswordChangeForm
+from .forms import CommentForm, SignUpForm, ContactFormu, PostForm,JobForm,UserForm,AdminForm,EmployerForm,ApplicationFormu, EmployeeForm,SignUpFormEmployer,PasswordChangeForm
 from django.contrib.auth.models import Group
 from .models import *
 from django.views.generic import CreateView
 from django.utils.text import slugify
 from .decorators import unauthenticated_user, allowed_users, admin_only
 from datetime import datetime, timedelta
+from django.utils import timezone
 # from .filters import JobFilter
 # from user.forms import UserProfileForm
 
@@ -163,10 +164,14 @@ def blog(request):
     except EmptyPage:
         paginated_queryset = paginator.page(paginator.num_pages)  
 
+    
+    popular_posts = Post.objects.all().order_by('-view_count')[:3]
+
     context = {
         'tags':tags,
         'categories':categories,
         'recent_posts':recent_posts,
+        'popular_posts':popular_posts,
         # 'comment_count':comment_count,
         'category_count':category_count,
         'tag_count':tag_count,
@@ -178,6 +183,7 @@ def blog(request):
 def blogDetail(request, slug):
     post = get_object_or_404(Post, slug=slug)
     recent_posts = Post.objects.all().order_by('-created_date')[:3]
+    popular_posts = Post.objects.all().order_by('-view_count')[:3]
     # comments = Comment.objects.filter(post=slug)
     # comment_count = comments.count()
     p = Comment.objects.order_by('timestamp').last()
@@ -196,10 +202,10 @@ def blogDetail(request, slug):
                 'slug':post.slug
         }))
 
-
     context = {
         'post':post,
         'recent_posts':recent_posts,
+        'popular_posts':popular_posts,
         # 'comments':comments,
         # 'comment_count':comment_count,
         'form':form
@@ -471,10 +477,55 @@ def jobDetail(request, slug):
     # employer = get_object_or_404(Employer)
     # employer = Employer.objects.filter(name = request.user.first_name +" "+ request.user.last_name)
 
+
+
+    form = ApplicationFormu()
+    if request.method =='POST':
+        form = ApplicationFormu(request.POST or None, request.FILES or None)
+        if form.is_valid():
+            application = form.save()
+            # application.instance.employee.user = request.user
+            application.save()
+            messages.success(request, "Your Application has been sent succesfully. Thank you")
+            return redirect('jobs')
+        else:
+            messages.error(request, "Error happened.")
+            return redirect('/')
+
+    # if request.method == "POST":
+        # form = ApplicationFormu(request.POST or None, request.FILES or None)
+        # jobform = JobForm(request.POST or None, request.FILES or None)
+      
+
+        # if form.is_valid():
+        #     application = form.save(commit=False)
+        #     # job.slug = slugify(job.jobtitle)
+        #     print(form.instance.employee)
+        #     application.instance.employee = request.user
+        #     application.save()
+        #     messages.success(request, "Your Application has been sent succesfully. Thank you")
+        #     return redirect('jobs')
+        # else:
+        #     messages.error(request, "Error happened.")
+        #     return redirect('/')
+
+    # if request.method == 'POST':             #form post edildiyse
+    #     form = ApplicationFormu(request.POST)
+    #     if form.is_valid():
+    #         data = Application(request.POST or None, request.FILES or None)            # model ile baglanti kur 
+    #         data.cv = form.cleaned_data['cv']  #formdan bilgiyi al
+    #         data.coverletter = form.cleaned_data['coverletter']
+    #         data.save()   #veritabanina kaydet
+    #         messages.success(request, "Your Application has been sent succesfully. Thank you")
+    #         return HttpResponseRedirect('jobs')
+
+
+    # form = ApplicationFormu()
+
     context = {
         'jobs':jobs,
         # 'employer':employer,
-        # 'form':form
+        'form':form
 
         # 'recent_posts':recent_posts,
         }

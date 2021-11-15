@@ -346,3 +346,18 @@ class Subscribe(models.Model):
     class Meta:
         verbose_name = 'Subscriber'
         verbose_name_plural = 'Subscribers'
+
+
+class Application(models.Model):
+    employee=models.ForeignKey(Employee, on_delete=models.CASCADE)
+    job_id=models.ForeignKey(Job, on_delete=models.CASCADE)
+    cv=models.FileField(verbose_name="Cv", blank=False)
+    coverletter = models.TextField(verbose_name="Cover Letter",max_length=5000, blank=True, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True,verbose_name="Applied time")
+
+    def __str__(self):
+        return self.employee.user.username
+
+    class Meta:
+        verbose_name = 'Application'
+        verbose_name_plural = 'Applications'

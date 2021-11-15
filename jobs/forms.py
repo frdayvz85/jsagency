@@ -1,5 +1,6 @@
 from django import forms
-from .models import Post, Comment, ContactFormMessage, Employee, Employer,Admin, Job,CustomUser
+from django.forms.widgets import ClearableFileInput
+from .models import Application, Post, Comment, ContactFormMessage, Employee, Employer,Admin, Job,CustomUser
 from django.forms import ModelForm, TextInput, Textarea, EmailInput, PasswordInput,URLField, IntegerField,ChoiceField, Select,NumberInput,URLInput, ImageField, FileField,FileInput
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -146,7 +147,14 @@ class ContactFormu(forms.ModelForm):
             'message': Textarea(attrs={'id': 'message', 'name':'message','class': 'form-control', 'placeholder': 'Your Message', 'rows':'7','required':'required'}),
         }  
 
-
+class ApplicationFormu(forms.ModelForm):
+    class Meta:
+        model = Application
+        fields = ['cv', 'coverletter']
+        widgets = {
+            'cv':    ClearableFileInput(attrs={'id': 'cv', 'name':'cv', 'class': 'form-control'}),
+            'coverletter': Textarea(attrs={'id': 'coverletter', 'name':'coverletter','class': 'form-control cover-leter', 'placeholder': 'Your Cover letter', 'rows':'7','required':'required'}),
+        }  
 
 
 

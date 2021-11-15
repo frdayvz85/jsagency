@@ -37,12 +37,20 @@
 
                          <br>
 
-                         <label class="control-label">Lorem ipsum dolor sit amet</label>
+                         <label class="control-label">Popular posts</label>
 
                          <ul class="list">
-                              <li><a href="blog-post-details.html">Lorem ipsum dolor sit amet, consectetur adipisicing.</a></li>
-                              <li><a href="blog-post-details.html">Et animi voluptatem, assumenda enim, consectetur quaerat!</a></li>
-                              <li><a href="blog-post-details.html">Ducimus magni eveniet sit doloremque molestiae alias mollitia vitae.</a></li>
+                              {% for post in popular_posts %}
+                              <li>
+                                   <a href="{{post.get_absolute_url}}" class="popular-post">
+                                      <img class="img-popular-post" src="{{post.image.url}}" alt="">
+                                      <div class="post-body">
+                                        <span>{{post.title|truncatechars:20}}</span> <br>
+                                        <span> <i class="fas fa-eye"></i> {{post.view_count}}</span>
+                                      </div>
+                                  </a>
+                             </li>
+                              {% endfor %}
                          </ul>
                     </div>
 

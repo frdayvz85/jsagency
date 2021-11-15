@@ -543,3 +543,43 @@ button {
 .subscribe-email-input {
   padding:20px 15px;
 }
+.address-social {
+  display: flex;
+  justify-content: space-between;
+}
+.img-popular-post {
+  width:50px;
+  height:50px;
+  object-fit: cover;
+}
+.list {
+  list-style: none;
+  padding-left: 1.2rem;
+}
+.popular-post {
+  display: flex;
+}
+.post-body {
+  margin-left: 7px;
+}
+.tags {
+  display: flex;
+  list-style: none;
+  padding-left:1rem;
+}
+.tags li {
+  font-family: Poppins;
+  font-weight: 700;
+}
+.tags li:not(:first-child) {
+  margin-left: 7px;
+}
+.cover-letter {
+  resize: vertical;
+}
+@media screen and (max-width: 560px) {
+  .subscribe-form {
+    grid-template-columns: 100%;
+    grid-gap: 20px;
+  }
+}

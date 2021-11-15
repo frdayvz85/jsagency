@@ -25,11 +25,11 @@
                                  aria-haspopup="true" aria-expanded="false">More <i class="fas fa-chevron-down"></i>
                                  <!-- Desktop -->
                                  <ul class="dropdown-menu">
-                                      <li><a href="team.html"><i class="fas fa-user-friends"></i> Team</a></li>
-                                      <li><a href="testimonials.html"><i class="far fa-sticky-note"></i>
+                                      <li><a href="{% url 'teams' %}"><i class="fas fa-user-friends"></i> Team</a></li>
+                                      <li><a href="{% url 'jobs' %}"><i class="far fa-sticky-note"></i>
                                                 Testimonials</a></li>
-                                      <li><a href="terms.html"><i class="far fa-handshake"></i> Terms</a></li>
-                                      <li><a href="about-us.html"><i class="fas fa-users"></i> About Us</a></li>
+                                      <li><a href="{% url 'jobs' %}"><i class="far fa-handshake"></i> Terms</a></li>
+                                      <li><a href="{% url 'jobs' %}"><i class="fas fa-users"></i> About Us</a></li>
                                       <li><a href="{% url 'blog' %}"><i class="fas fa-images"></i> Blog</a></li>
                                       {% if request.user.is_employer  %}
                                       <li><a href="{% url 'job-create' %}"><i class="fas fa-plus"></i>Create Job</a></li>
