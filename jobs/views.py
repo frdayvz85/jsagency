@@ -494,9 +494,9 @@ def jobDetail(request, slug):
             form.instance.employee = employee
             form.save()
             messages.success(request, "Your have applied succesfully!")
-            return redirect('/job-detail')
+            return redirect('/job-detail/'+jobs.slug)
         else:
-            messages.error(request, "Errrrroooooorrr")
+            messages.error(request, "Something went wrong, Try again later!")
             return redirect("/")
             
 

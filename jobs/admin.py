@@ -109,6 +109,11 @@ class ContactInfoAdmin(admin.ModelAdmin):
     list_filter = ['status']
     search_fields = ['status', 'email']
 
+    def has_add_permission(self, request):
+        return False
+    def has_delete_permission(self, request, obj=None):
+        return False
+
 admin.site.register(ContactInfo, ContactInfoAdmin)
 
 
