@@ -34,10 +34,10 @@ class AboutAdmin(admin.ModelAdmin):
     list_display = ['status','updated_date', 'created_date']
     list_filter = ['status']
 
-    # def has_add_permission(self, request):
-    #     return False
-    # def has_delete_permission(self, request, obj=None):
-    #     return False
+    def has_add_permission(self, request):
+        return False
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 admin.site.register(About, AboutAdmin)
 
@@ -56,6 +56,11 @@ admin.site.register(Team, TeamAdmin)
 class TermAdmin(admin.ModelAdmin):
     list_display = ['title','updated_date', 'created_date']
     list_filter = ['title']
+
+    def has_add_permission(self, request):
+        return False
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 admin.site.register(Term, TermAdmin)
 
@@ -165,10 +170,14 @@ class SocialAdmin(admin.ModelAdmin):
     list_display = ['email', 'created_date']
     list_filter = ['email']
 
+    def has_add_permission(self, request):
+        return False
+    def has_delete_permission(self, request, obj=None):
+        return False
+
 admin.site.register(Social, SocialAdmin)
 
 class IntroAdmin(admin.ModelAdmin):
     list_display = ['overview', 'timestamp']
     list_filter = ['overview']
-
 admin.site.register(Intro, IntroAdmin)
