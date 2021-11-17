@@ -106,18 +106,6 @@ class ContactInfoAdmin(admin.ModelAdmin):
 
 admin.site.register(ContactInfo, ContactInfoAdmin)
 
-class SocialAdmin(admin.ModelAdmin):
-    list_display = ['updated_date', 'created_date']
-    list_filter = ['created_date']
-
-    # def has_add_permission(self, request):
-    #     return False
-    # def has_delete_permission(self, request, obj=None):
-    #     return False
-
-admin.site.register(Social, SocialAdmin)
-
-
 
 class JobCategoryAdmin(admin.ModelAdmin):
     list_display = ['title']
@@ -172,3 +160,15 @@ class ApplicationAdmin(admin.ModelAdmin):
     list_filter = ['employee']
 
 admin.site.register(Application, ApplicationAdmin)
+
+class SocialAdmin(admin.ModelAdmin):
+    list_display = ['email', 'created_date']
+    list_filter = ['email']
+
+admin.site.register(Social, SocialAdmin)
+
+class IntroAdmin(admin.ModelAdmin):
+    list_display = ['overview', 'timestamp']
+    list_filter = ['overview']
+
+admin.site.register(Intro, IntroAdmin)

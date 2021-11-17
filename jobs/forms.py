@@ -150,9 +150,9 @@ class ContactFormu(forms.ModelForm):
 class ApplicationFormu(forms.ModelForm):
     class Meta:
         model = Application
-        fields = ['cv', 'coverletter']
+        fields = ['coverletter']
         widgets = {
-            'cv':    ClearableFileInput(attrs={'id': 'cv', 'name':'cv', 'class': 'form-control'}),
+            # 'cv':    FileInput(attrs={'id': 'cv', 'name':'cv', 'class': 'form-control'}),
             'coverletter': Textarea(attrs={'id': 'coverletter', 'name':'coverletter','class': 'form-control cover-leter', 'placeholder': 'Your Cover letter', 'rows':'7','required':'required'}),
         }  
 

@@ -8,6 +8,7 @@ from django.conf import settings
 from django.utils.text import slugify
 import itertools
 from django_countries.fields import CountryField
+from cloudinary_storage.storage import RawMediaCloudinaryStorage
 
 
 # User=get_user_model()
@@ -21,8 +22,8 @@ class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
 
 class Admin(models.Model):
-    admin = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    profile_pic = models.ImageField(upload_to='images/')
+    admin = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Admin")
+    profile_pic = models.ImageField(upload_to='images/', verbose_name="Profile image")
 
 
     def __str__(self):
@@ -34,114 +35,101 @@ class About(models.Model):
         ('False','False'),
     )
     image = models.ImageField(blank=True, upload_to='images/')
-    description = RichTextUploadingField(blank=True)
+    description = RichTextUploadingField(blank=True, verbose_name="Description")
     status = models.CharField(max_length=10, choices=STATUS, default='False')
-    created_date = models.DateTimeField(auto_now_add=True)
-    updated_date = models.DateTimeField(auto_now=True)
+    created_date = models.DateTimeField(auto_now_add=True,verbose_name="Created date")
+    updated_date = models.DateTimeField(auto_now=True, verbose_name="Updated date")
     
     def __str__(self):
         return self.status
 
 class Testimonial(models.Model):
-    fullname = models.CharField(blank=True, max_length=200)
-    profession = models.CharField(blank=True, max_length=200)
-    image = models.ImageField(blank=True, upload_to='images/')
-    description = RichTextUploadingField(blank=True)
-    created_date = models.DateTimeField(auto_now_add=True)
-    updated_date = models.DateTimeField(auto_now=True)
+    fullname = models.CharField(blank=True, max_length=200, verbose_name="Full name")
+    profession = models.CharField(blank=True, max_length=200, verbose_name="Profession")
+    image = models.ImageField(blank=True, upload_to='images/', verbose_name="Image")
+    description = RichTextUploadingField(blank=True, verbose_name="Description")
+    created_date = models.DateTimeField(auto_now_add=True,verbose_name="Created date")
+    updated_date = models.DateTimeField(auto_now=True, verbose_name="Updated date")
     
     def __str__(self):
         return self.fullname
 
 class Team(models.Model):
-    fullname = models.CharField(blank=True, max_length=200)
-    image = models.ImageField(blank=True, upload_to='images/')
-    specialty = models.CharField(blank=True, max_length=200)
-    facebook = models.CharField(blank=True, max_length=200)
-    twitter = models.CharField(blank=True, max_length=200)
-    linkedin = models.CharField(blank=True, max_length=200)
-    created_date = models.DateTimeField(auto_now_add=True)
-    updated_date = models.DateTimeField(auto_now=True)
+    fullname = models.CharField(blank=True, max_length=200, verbose_name="Fullname")
+    image = models.ImageField(blank=True, upload_to='images/', verbose_name="Image")
+    specialty = models.CharField(blank=True, max_length=200, verbose_name="Speciality")
+    facebook = models.CharField(blank=True, max_length=200, verbose_name="Facebook")
+    twitter = models.CharField(blank=True, max_length=200, verbose_name="Twitter")
+    linkedin = models.CharField(blank=True, max_length=200, verbose_name="Linkedin")
+    created_date = models.DateTimeField(auto_now_add=True,verbose_name="Created date")
+    updated_date = models.DateTimeField(auto_now=True, verbose_name="Updated date")
     
     def __str__(self):
         return self.fullname
 
 class Term(models.Model):
-    title = models.CharField(max_length=3000)
-    description = RichTextUploadingField(blank=True)
-    created_date = models.DateTimeField(auto_now_add=True)
-    updated_date = models.DateTimeField(auto_now=True)
+    title = models.CharField(max_length=3000, verbose_name="Title")
+    description = RichTextUploadingField(blank=True, verbose_name="Description")
+    created_date = models.DateTimeField(auto_now_add=True,verbose_name="Created date")
+    updated_date = models.DateTimeField(auto_now=True, verbose_name="Updated date")
     
     def __str__(self):
         return self.title
 
 
-class Social(models.Model):
-    facebook = models.CharField(blank=True, max_length=200)
-    twitter = models.CharField(blank=True, max_length=200)
-    behance = models.CharField(blank=True, max_length=200)
-    linkedin = models.CharField(blank=True, max_length=200)
-    url = models.URLField(blank=True, max_length=200)
-    created_date = models.DateTimeField(auto_now_add=True)
-    updated_date = models.DateTimeField(auto_now=True)
-    
-    def __str__(self):
-        return self.facebook
-
 class Employer(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    # name = models.CharField(max_length=200, null=True)
-    company_logo = models.ImageField(upload_to='images/')
-    profile_pic = models.ImageField(upload_to='images/')
-    phonenumber = models.CharField(blank=True, max_length=200)
-    mobilenumber = models.CharField(blank=True, max_length=200)
-    companyname = models.CharField(max_length=200)
-    companyinfo = RichTextUploadingField(blank=True) 
-    city = models.CharField(blank=True, max_length=200)
-    website = models.CharField(blank=True, max_length=200)
-    create_at = models.DateTimeField(auto_now_add=True)
-    update_at = models.DateTimeField(auto_now=True)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="User")
+    company_logo = models.ImageField(upload_to='images/', verbose_name="Company logo")
+    profile_pic = models.ImageField(upload_to='images/', verbose_name="Profile image")
+    phonenumber = models.CharField(blank=True, max_length=200, verbose_name="Phone number")
+    mobilenumber = models.CharField(blank=True, max_length=200, verbose_name="Mobile number")
+    companyname = models.CharField(max_length=200, verbose_name="Company name")
+    companyinfo = RichTextUploadingField(blank=True, verbose_name="Company information") 
+    city = models.CharField(blank=True, max_length=200, verbose_name="City")
+    website = models.CharField(blank=True, max_length=200, verbose_name="Website")
+    create_at = models.DateTimeField(auto_now_add=True,verbose_name="Created date")
+    update_at = models.DateTimeField(auto_now=True, verbose_name="Updated date")
 
 
     def __str__(self):
         return self.user.username
 
 class Employee(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    profile_pic = models.ImageField(upload_to='images/', default="images/default.png")
-    phonenumber = models.CharField(blank=True, max_length=200)
-    profession = models.CharField(blank=True, max_length=200)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="User")
+    profile_pic = models.ImageField(upload_to='images/', default="images/default.png", verbose_name="Profile image")
+    phonenumber = models.CharField(blank=True, max_length=200, verbose_name="Phone number")
+    profession = models.CharField(blank=True, max_length=200, verbose_name="Profession")
 
 
     def __str__(self):
         return self.user.username
 
 class Category(models.Model):
-    title=models.CharField(max_length=20)
+    title=models.CharField(max_length=20, verbose_name="Title")
 
     def __str__(self):
         return self.title
 
 class Tag(models.Model):
-    title=models.CharField(max_length=20)
+    title=models.CharField(max_length=20, verbose_name="Title")
 
     def __str__(self):
         return self.title
 
 class Post(models.Model):
-    title=models.CharField(max_length=100)
-    overview=models.TextField()
-    content = RichTextUploadingField()
-    comment_count=models.IntegerField(default=0)
-    view_count=models.IntegerField(default=0)
-    author=models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    image = models.ImageField()
-    slug = models.SlugField( null=False, unique=True)
-    categories = models.ManyToManyField(Category)
-    tags = models.ManyToManyField(Tag)
+    title=models.CharField(max_length=100, verbose_name="Title")
+    overview=models.TextField(verbose_name="Overview")
+    content = RichTextUploadingField(verbose_name="Content")
+    comment_count=models.IntegerField(default=0, verbose_name="Comment count")
+    view_count=models.IntegerField(default=0, verbose_name="View count")
+    author=models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Author")
+    image = models.ImageField(verbose_name="Image")
+    slug = models.SlugField( null=False, unique=True, verbose_name="Slug")
+    categories = models.ManyToManyField(Category, verbose_name="Categories")
+    tags = models.ManyToManyField(Tag, verbose_name="Tags")
     # featured = models.BooleanField()
-    created_date = models.DateTimeField(auto_now_add=True)
-    updated_date = models.DateTimeField(auto_now=True)
+    created_date = models.DateTimeField(auto_now_add=True,verbose_name="Created date")
+    updated_date = models.DateTimeField(auto_now=True, verbose_name="Updated date")
 
     def __str__(self):
         return self.title
@@ -182,9 +170,9 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    timestamp=models.DateTimeField(auto_now_add=True)
-    content = models.TextField()
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="User")
+    timestamp=models.DateTimeField(auto_now_add=True,verbose_name="Created date")
+    content = models.TextField(verbose_name="Content")
     post = models.ForeignKey('Post', related_name='comments', on_delete=models.CASCADE)
 
     def __str__(self):
@@ -195,15 +183,15 @@ class ContactFormMessage(models.Model):
         ('New', 'New'),
         ('Read', 'Read'),
     )
-    name = models.CharField(blank=True, max_length=50)
-    email = models.CharField(blank=True, max_length=50)
-    subject = models.CharField(blank=True, max_length=100)
-    message = models.TextField(blank=True, max_length=555)
-    status = models.CharField(max_length=20, choices=STATUS, default='New')
-    ip = models.CharField(blank=True, max_length=20)
-    note = models.CharField(blank=True, max_length=200)
-    create_at = models.DateTimeField(auto_now_add=True)
-    update_at = models.DateTimeField(auto_now=True)
+    name = models.CharField(blank=True, max_length=50, verbose_name="Name")
+    email = models.CharField(blank=True, max_length=50, verbose_name="Email")
+    subject = models.CharField(blank=True, max_length=100, verbose_name="Subject")
+    message = models.TextField(blank=True, max_length=555, verbose_name="Message")
+    status = models.CharField(max_length=20, choices=STATUS, default='New', verbose_name="Status")
+    ip = models.CharField(blank=True, max_length=20, verbose_name="IP")
+    note = models.CharField(blank=True, max_length=200, verbose_name="Note")
+    create_at = models.DateTimeField(auto_now_add=True,verbose_name="Created date")
+    update_at = models.DateTimeField(auto_now=True, verbose_name="Updated date")
 
     def __str__(self):
         return self.name
@@ -219,13 +207,13 @@ class ContactInfo(models.Model):
         ('True', 'True'),
         ('False','False'),
     )
-    phonenumber = models.PositiveIntegerField(blank=True)
-    email = models.EmailField(max_length=50, blank=True)
-    address = models.CharField(max_length=350)
-    status = models.CharField(max_length=10, choices=STATUS)
-    addressUrl = models.URLField(max_length=1200, blank=True)
-    create_at = models.DateTimeField(auto_now_add=True)
-    update_at = models.DateTimeField(auto_now=True)
+    phonenumber = models.PositiveIntegerField(blank=True, verbose_name="Phone number")
+    email = models.EmailField(max_length=50, blank=True, verbose_name="Email")
+    address = models.CharField(max_length=350, verbose_name="Address")
+    status = models.CharField(max_length=10, choices=STATUS, verbose_name="Status")
+    addressUrl = models.URLField(max_length=1200, blank=True, verbose_name="Address url")
+    create_at = models.DateTimeField(auto_now_add=True,verbose_name="Created date")
+    update_at = models.DateTimeField(auto_now=True, verbose_name="Updated date")
     
 
     def __str__(self):
@@ -237,9 +225,9 @@ class ContactInfo(models.Model):
 
 
 class JobCategory(models.Model):
-    title=models.CharField(max_length=1250)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    title=models.CharField(max_length=1250, verbose_name="Title")
+    created_at = models.DateTimeField(auto_now_add=True,verbose_name="Created date")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Updated date")
 
     def __str__(self):
         return self.title
@@ -249,8 +237,8 @@ class JobCategory(models.Model):
 
 class Country(models.Model):
     country=models.CharField(max_length=750)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True,verbose_name="Created date")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Updated date")
 
     def __str__(self):
         return self.country
@@ -282,20 +270,20 @@ class Job(models.Model):
         ('Experience > 5', 'Experience > 5'),
     )
     jobtitle = models.CharField(max_length=500, verbose_name="Job title")
-    salary = models.PositiveIntegerField()
-    overview = models.CharField(max_length=2000)
-    description = RichTextUploadingField(blank=True) 
-    employer=models.ForeignKey(Employer, on_delete=models.CASCADE)
-    type = models.CharField(max_length=500, choices=TYPE)
-    worktype = models.CharField(max_length=500, choices=WORKTYPE)
-    level = models.CharField(max_length=500, choices=ELEVEL)
-    experience = models.CharField(max_length=500, choices=EXXPERİENCE)
-    jobcategory = models.ForeignKey(JobCategory,on_delete=models.CASCADE)
+    salary = models.PositiveIntegerField(verbose_name="Salary")
+    overview = models.CharField(max_length=2000, verbose_name="Overview")
+    description = RichTextUploadingField(blank=True, verbose_name="Description") 
+    employer=models.ForeignKey(Employer, on_delete=models.CASCADE, verbose_name="Employer")
+    type = models.CharField(max_length=500, choices=TYPE, verbose_name="Type")
+    worktype = models.CharField(max_length=500, choices=WORKTYPE, verbose_name="Work type")
+    level = models.CharField(max_length=500, choices=ELEVEL, verbose_name="Level")
+    experience = models.CharField(max_length=500, choices=EXXPERİENCE, verbose_name="Experience")
+    jobcategory = models.ForeignKey(JobCategory,on_delete=models.CASCADE, verbose_name="Job category")
     # country = models.ForeignKey(Country,on_delete=models.CASCADE)
     country = CountryField(blank_label='(select country)')
-    slug = models.SlugField(null=False, unique=True)
-    create_at = models.DateTimeField(auto_now_add=True)
-    update_at = models.DateTimeField(auto_now=True)
+    slug = models.SlugField(null=False, unique=True, verbose_name="Slug")
+    create_at = models.DateTimeField(auto_now_add=True,verbose_name="Created date")
+    update_at = models.DateTimeField(auto_now=True, verbose_name="Updated date")
 
 
     def __str__(self):
@@ -330,8 +318,8 @@ class Job(models.Model):
 
 class Setting(models.Model):
     websitename=models.CharField(max_length=50, null=False, blank=False)
-    create_at = models.DateTimeField(auto_now_add=True)
-    update_at = models.DateTimeField(auto_now=True)
+    create_at = models.DateTimeField(auto_now_add=True,verbose_name="Created date")
+    update_at = models.DateTimeField(auto_now=True, verbose_name="Updated date")
 
     def __str__(self):
         return self.websitename
@@ -351,7 +339,7 @@ class Subscribe(models.Model):
 class Application(models.Model):
     employee=models.ForeignKey(Employee, on_delete=models.CASCADE)
     job_id=models.ForeignKey(Job, on_delete=models.CASCADE)
-    cv=models.FileField(verbose_name="Cv", blank=False)
+    # cv=models.FileField(verbose_name="Cv", blank=False,storage=RawMediaCloudinaryStorage())
     coverletter = models.TextField(verbose_name="Cover Letter",max_length=5000, blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True,verbose_name="Applied time")
 
@@ -361,3 +349,34 @@ class Application(models.Model):
     class Meta:
         verbose_name = 'Application'
         verbose_name_plural = 'Applications'
+    
+
+class Social(models.Model):
+    facebook = models.URLField(blank=True, max_length=500,verbose_name="Facebook")
+    twitter = models.URLField(blank=True, max_length=500,verbose_name="Twitter")
+    linkedin = models.URLField(blank=True, max_length=500,verbose_name="Linkedin")
+    instagram = models.URLField(blank=True, max_length=500,verbose_name="Instagram")
+    youtube = models.URLField(blank=True, max_length=500,verbose_name="Youtube")
+    email = models.EmailField(blank=True, max_length=200,verbose_name="Email")
+    created_date = models.DateTimeField(auto_now_add=True,verbose_name="Created date")
+    updated_date = models.DateTimeField(auto_now=True,verbose_name="Updated date")
+    
+    def __str__(self):
+        return self.email
+
+    class Meta:
+        verbose_name = 'Social'
+        verbose_name_plural = 'Socials'
+
+class Intro(models.Model):
+    image = models.ImageField(verbose_name="Image", blank=True, null=True)
+    overview = models.TextField(verbose_name="Overview",max_length=700, blank=True, null=True)
+    description = models.TextField(verbose_name="Description",max_length=2000, blank=True, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True,verbose_name="Applied time")
+
+    def __str__(self):
+        return self.overview
+
+    class Meta:
+        verbose_name = 'Intro'
+        verbose_name_plural = 'Intro'

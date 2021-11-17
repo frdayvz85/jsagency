@@ -451,18 +451,6 @@ section {
   color: #FF3;
 }
 
-.home-slider .item-first {
-  background-image: url(../images/slider-image-1-1920x700.jpg);
-  background-position: center;
-}
-
-.home-slider .item-second {
-  background-image: url(../images/slider-image-2-1920x700.jpg);
-}
-
-.home-slider .item-third {
-  background-image: url(../images/slider-image-3-1920x700.jpg);
-}
 
 
 
@@ -1438,7 +1426,8 @@ form .down a {
 }
 
 /* UPLOAD IMG */
-.upload-img #file1 {
+.upload-img #file1,
+.upload-img #file2 {
   display: none;
 }
 

@@ -356,16 +356,17 @@ button {
   background-color: #F9F9F9;
 }
 .panel1 .panel-element .element-content .content-post .post-avatar {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   float: left;
   border-radius: 50%;
 }
 .panel1 .panel-element .element-content .content-post .post-avatar img {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  /* border-radius: 50%; */
   object-fit: cover;
+  padding-right: 5px;
 }
 .panel1 .panel-element .element-content .content-post .post-content {
   margin-left: 75px;
@@ -576,6 +577,26 @@ button {
 }
 .cover-letter {
   resize: vertical;
+}
+.fix-section {
+  padding:0 0 50px 0;
+}
+.btn-applied {
+  background-color:thistle;
+  cursor: not-allowed;
+}
+.btn-applied:hover {
+  background-color:thistle !important;
+}
+.apply-form-footer {
+  display: flex;
+  justify-content: flex-start;
+}
+.title-contact {
+  color: #0c0909 !important;
+}
+#footer a:hover {
+  color: #ebfaff !important;
 }
 @media screen and (max-width: 560px) {
   .subscribe-form {

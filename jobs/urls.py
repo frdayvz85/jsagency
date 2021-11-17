@@ -36,6 +36,7 @@ urlpatterns = [
 
 
     path('shared-jobs/', views.sharedJobs,name="shared-jobs"),
+    path('applied-jobs/', views.appliedJobs,name="applied-jobs"),
 
     path('employer-profile', views.employerProfile, name="employer-profile"),
     # path('employerProfileEdit', views.employerProfileEdit, name="employerProfileEdit"),

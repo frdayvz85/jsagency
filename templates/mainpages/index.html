@@ -4,15 +4,7 @@
 {% block title %} Job Search Agency {% endblock %}
 {% block content %}
 
-
-     <!-- PRE LOADER -->
-     <!-- <section class="preloader">
-          <div class="spinner">
-               <span class="spinner-rotate"></span>
-          </div>
-     </section> -->
-     {% include './load.html' %}
-
+{% include './load.html' %}
 
 
      <!-- HOME -->
@@ -20,50 +12,26 @@
      <section id="home">
           <div class="row">
                <div class="owl-carousel owl-theme home-slider">
-                    <div class="item item-first">
+                    {% for intro in intros %}
+                    <div class="item item-first" style="background-image:url({{intro.image.url}})">
                          <div class="caption">
                               <div class="container">
                                    <div class="col-md-6 col-sm-12">
-                                        <h1>Lorem ipsum dolor sit amet.</h1>
-                                        <h3>Voluptas dignissimos esse, explicabo cum fugit eaque, perspiciatis quia ab
-                                             nisi sapiente delectus eiet.</h3>
+                                        <h1>{{intro.overview}}</h1>
+                                        <h3>{{intro.description}}</h3>
                                         <a href="{% url 'jobs' %}" class="section-btn btn btn-default">Browse Jobs</a>
                                    </div>
                               </div>
                          </div>
                     </div>
-
-                    <div class="item item-second">
-                         <div class="caption">
-                              <div class="container">
-                                   <div class="col-md-6 col-sm-12">
-                                        <h1>Distinctio explicabo vero animi culpa facere voluptatem.</h1>
-                                        <h3>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo, excepturi.
-                                        </h3>
-                                        <a href="{% url 'jobs' %}" class="section-btn btn btn-default">Browse Jobs</a>
-                                   </div>
-                              </div>
-                         </div>
-                    </div>
-
-                    <div class="item item-third">
-                         <div class="caption">
-                              <div class="container">
-                                   <div class="col-md-6 col-sm-12">
-                                        <h1>Efficient Learning Methods</h1>
-                                        <h3>Nam eget sapien vel nibh euismod vulputate in vel nibh. Quisque eu ex eu
-                                             urna venenatis sollicitudin ut at libero.</h3>
-                                        <a href="{% url 'jobs' %}" class="section-btn btn btn-default">Browse Jobs</a>
-                                   </div>
-                              </div>
-                         </div>
-                    </div>
+                    {% endfor %}
+                    
                </div>
           </div>
      </section>
 
      <main>
-          <section>
+          <!-- <section>
                <div class="container">
                     <div class="row">
                          <div class="col-md-12 col-sm-12">
@@ -82,7 +50,7 @@
                          </div>
                     </div>
                </div>
-          </section>
+          </section> -->
 
           <section>
                <div class="container">

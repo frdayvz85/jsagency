@@ -16,6 +16,8 @@
                 <img  class="user-img" src="{% static 'assets/images/default.png' %}" alt="Profile photo"/>
                 {% endif %}
                 <a href="{% url 'password-change' %}" class="btn-submit">Change password</a>
+                <a href="https://jsa-cv.netlify.app/" target="_blank" class="btn-submit">Create CV</a>
+                <a href="{% url 'applied-jobs' %}" class="btn-submit">Applied jobs</a>
             </div>
                        
             <div class="right">

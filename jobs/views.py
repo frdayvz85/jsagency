@@ -91,6 +91,7 @@ def home(request):
     comment_count = comments.count()
     popular_jobs = Job.objects.all().order_by('-id')[:5]
     last_three_job = Job.objects.all().order_by('-id')[:3]
+    intros = Intro.objects.all().order_by('-id')
 
     # subscribe
     if request.method == 'POST':
@@ -110,14 +111,15 @@ def home(request):
         'comment_count':comment_count,
         'last_three_job':last_three_job,
         'popular_jobs':popular_jobs,
-        'testimonials':testimonials
+        'testimonials':testimonials,
+        'intros':intros,
         }
     return render(request, 'mainpages/index.html', context)
 
 def aboutUs(request):
     abouts = About.objects.get(pk=1)
     context = {'abouts':abouts}
-    return render(request, 'mainpages/about.html', context)
+    return render(request, 'mainpages/about-us.html', context)
 
 # def foot(request):
 #     footers = Social.objects.get(pk=1)
@@ -471,63 +473,55 @@ def jobs(request):
 
 def jobDetail(request, slug):
     jobs = get_object_or_404(Job, slug=slug)
+    appliedJobs =Application.objects.filter(employee_id=request.user.employee, job_id_id=jobs.id).order_by('-timestamp')
+    appliedJobss =Application.objects.all().order_by('-timestamp')
+    print(appliedJobs)
+    print(appliedJobss)
     # recent_jobs = Job.objects.all().order_by('-create_at')[:3]
     # user = request.user
     # form = EmployerForm(instance=user)
     # employer = get_object_or_404(Employer)
     # employer = Employer.objects.filter(name = request.user.first_name +" "+ request.user.last_name)
-
-
-
+    
     form = ApplicationFormu()
-    if request.method =='POST':
-        form = ApplicationFormu(request.POST or None, request.FILES or None)
+    if request.method == 'POST':
+        form = ApplicationFormu(request.POST, request.FILES or None )
+        form1 = JobForm(request.POST or None, request.FILES or None)
+        employee = get_author(request.user)
         if form.is_valid():
-            application = form.save()
-            # application.instance.employee.user = request.user
-            application.save()
-            messages.success(request, "Your Application has been sent succesfully. Thank you")
-            return redirect('jobs')
+            apply=form.save(commit=False)
+            apply.job_id =jobs
+            form.instance.employee = employee
+            form.save()
+            messages.success(request, "Your have applied succesfully!")
+            return redirect('/job-detail')
         else:
-            messages.error(request, "Error happened.")
-            return redirect('/')
+            messages.error(request, "Errrrroooooorrr")
+            return redirect("/")
+            
 
+    # form = ApplicationFormu(request.POST or None, request.FILES or None )
+    # employee = get_author(request.user)
     # if request.method == "POST":
-        # form = ApplicationFormu(request.POST or None, request.FILES or None)
-        # jobform = JobForm(request.POST or None, request.FILES or None)
-      
-
-        # if form.is_valid():
-        #     application = form.save(commit=False)
-        #     # job.slug = slugify(job.jobtitle)
-        #     print(form.instance.employee)
-        #     application.instance.employee = request.user
-        #     application.save()
-        #     messages.success(request, "Your Application has been sent succesfully. Thank you")
-        #     return redirect('jobs')
-        # else:
-        #     messages.error(request, "Error happened.")
-        #     return redirect('/')
-
-    # if request.method == 'POST':             #form post edildiyse
-    #     form = ApplicationFormu(request.POST)
     #     if form.is_valid():
-    #         data = Application(request.POST or None, request.FILES or None)            # model ile baglanti kur 
-    #         data.cv = form.cleaned_data['cv']  #formdan bilgiyi al
-    #         data.coverletter = form.cleaned_data['coverletter']
-    #         data.save()   #veritabanina kaydet
-    #         messages.success(request, "Your Application has been sent succesfully. Thank you")
-    #         return HttpResponseRedirect('jobs')
-
-
-    # form = ApplicationFormu()
+    #         apply = form.save()
+    #         apply.job_id = jobs
+    #         form.instance.employee = employee
+    #         form.save()
+    #         # Application.objects.create(
+	# 		# 	        user=employee
+	# 		# 	)
+    #         messages.success(request, "Your Job has been created succesfully. Thank you")
+    #         return redirect('/')
+    #     else:
+    #         messages.error(request, "Errrrroooooorrr")
+    #         return redirect('/')
 
     context = {
         'jobs':jobs,
         # 'employer':employer,
-        'form':form
-
-        # 'recent_posts':recent_posts,
+        'form':form,
+        'appliedJobs':appliedJobs,
         }
 
     return render(request, 'mainpages/job-details.html', context)
@@ -650,6 +644,14 @@ def sharedJobs(request):
     }
     return render(request, 'mainpages/shared-jobs.html', context)
 
+
+def appliedJobs(request):
+    jobs = Application.objects.filter(employee_id=request.user.employee).order_by('-timestamp')
+    print(jobs)
+    context = {
+        'jobs':jobs
+    }
+    return render(request, 'mainpages/applied-jobs.html', context)
 
 
 def error_404(request, exception):

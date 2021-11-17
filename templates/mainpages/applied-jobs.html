@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block title %} Applied jobs - Job Search Agency {% endblock %}
+
+
+{% block style_content %}
+
+    <div id="employee-profile" class="container">
+      <h2 class="title">Applied jobs </h2>
+      <div class="line"></div>
+      <div class="employee-profile-section">
+        <div class="panel1">
+          {% if jobs %}
+            {% for job in jobs %}
+            <div class="panel-element">
+              <div class="element-actions">
+                  <button class="btn1 btn-action btn-hide"><i class="fas fa-trash"></i></button>
+              </div>
+              
+              <div class="element-content">
+                  <button class="btn1 btn-more">
+                      <i class="fa fa-ellipsis-h icon-closed"></i>
+                      <i class="fa fa-times icon-open"></i>
+                  </button>
+                  
+                  <div class="content-post">
+                      <div class="post-avatar">
+                        {% if job.job_id.employer.company_logo %}
+                          <img src="{{job.job_id.employer.company_logo.url}}" alt="logo">
+                          {% else %}
+                          <img src="{% static 'assets/images/companyLogo.jpg' %}" alt="Logo">
+                          {% endif %}
+                      </div>
+      
+                      <div class="post-content">
+                          <a href="{{job.get_absolute_url}}" class="post-title">{{job.job_id.jobtitle}} </a>
+                          <p class="post-body">{{job.job_id.overview|truncatechars:150}}</p>
+                          <b>Applied:<i>{{job.timestamp|date:"d M Y"}}</i></b>
+                      </div>
+                  </div>
+              </div>
+          </div>
+            {% endfor %}
+            {% else %}
+            <h4 class="text-center">You didn't applied any jobs.</h4>
+            {% endif %}
+        </div>
+      </div>
+       
+    </div>
+
+
+    </div>
+    </div>
+    {% endblock %}

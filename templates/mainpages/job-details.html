@@ -18,9 +18,9 @@
                     </div>
 
                     <div class="col-lg-9 col-md-9 col-xs-12">
-                         <form action="#" method="post" class="form">
+                         <div class="form">
                               <h2>{{jobs.jobtitle}}</h2>
-
+                              <small>{{appliedJobs.timestamp|date:"d M Y"}}</small>
                               <p class="lead"><strong class="text-primary">${{jobs.salary}}</strong> <small> per year</small></p>
 
                               <p class="lead">
@@ -57,7 +57,7 @@
                               </p>
 
                               
-                         </form>
+                         </div>
                     </div>
                </div>
 
@@ -168,8 +168,11 @@
                <div class="clearfix">
                     {% if user.is_employer %}
                     {% else %}
+                    {% if appliedJobs %}
+                    <button type="button" class="section-btn btn btn-primary btn-applied pull-left">APPLIED</button>
+                    {% else %}
                     <button type="button" class="section-btn btn btn-primary pull-left" data-toggle="modal" data-target=".bd-example-modal-lg">APPLY</button>
-                    <!-- <a href="#" class="section-btn btn btn-primary pull-left">Apply for this job</a> -->
+                    {% endif %}
                     {% endif %}
 
                     <ul class="social-icon pull-right">
@@ -191,7 +194,7 @@
            </button>
          </div>
          <div class="modal-body">
-           <form method="post">
+           <form method="post" action="">
            {% csrf_token %}
              <!-- <div class="form-group">
                <label for="recipient-name" class="col-form-label">Fisrt name:</label>
@@ -203,13 +206,16 @@
              </div> -->
              <div class="form-group">
                <label for="recipient-name" class="col-form-label">Cv:</label>
-               {{form.cv}}
+               <!-- {{form.cv}} -->
              </div>
              <div class="form-group">
                <label for="message-text" class="col-form-label">Cover letter:</label>
                {{form.coverletter}}
              </div>
-             <button type="submit" class="btn btn-primary">Apply</button>
+             <div class="form-group apply-form-footer">
+               <button type="submit" class="btn btn-primary">Apply</button>
+               <a href="https://jsa-cv.netlify.app/" target="_blank" class="btn-submit">Create CV</a>
+             </div>
            </form>
          </div>
          <div class="modal-footer">

@@ -9,23 +9,11 @@
             <h2>Headquarter</h2>
           </div>
           <address>
-            <p>212 Barrington Court <br />New York, ABC 10001</p>
+            <p>{{contact.address}} <br />Budapest/Hungary</p>
           </address>
 
-          <ul class="social-icon">
-            <li>
-              <a
-                href="#"
-                class="fa fa-facebook-square"
-                attr="facebook icon"
-              ></a>
-            </li>
-            <li><a href="#" class="fa fa-twitter"></a></li>
-            <li><a href="#" class="fa fa-instagram"></a></li>
-          </ul>
-
           <div class="copyright-text">
-            <p>Copyright &copy; 2020 Company Name</p>
+            <p>Copyright &copy; 2021 JSA</p>
             <p>
               Made by:
               <a href="#">JSA Team</a>
@@ -40,16 +28,16 @@
             <h2>Contact Info</h2>
           </div>
           <address>
-            <p>+1 333 4040 5566</p>
-            <p><a href="mailto:contact@company.com">contact@company.com</a></p>
+            <p>+{{contact.phonenumber}}</p>
+            <p><a href="mailto:{{contact.email}}">{{contact.email}}</a></p>
           </address>
 
           <div class="footer_menu">
             <h2>Quick Links</h2>
             <ul>
               <li><a href="{% url 'home' %}">Home</a></li>
-              <li><a href="{% url 'login' %}">About Us</a></li>
-              <li><a href="{% url 'login' %}">Terms & Conditions</a></li>
+              <li><a href="{% url 'about-us' %}">About Us</a></li>
+              <li><a href="{% url 'terms' %}">Terms & Conditions</a></li>
               <li><a href="{% url 'contact' %}">Contact Us</a></li>
             </ul>
           </div>
@@ -62,12 +50,12 @@
             <h2>Social Media</h2>
           </div>
           <address class="address-social">
-            <p><a href="mailto:contact@company.com"><i class="fab fa-facebook"></i></a></p>
-            <p><a href="mailto:contact@company.com"><i class="fab fa-instagram"></i></a></p>
-            <p><a href="mailto:contact@company.com"><i class="fab fa-linkedin"></i></a></p>
-            <p><a href="mailto:contact@company.com"><i class="fab fa-youtube"></i></a></p>
-            <p><a href="mailto:contact@company.com"><i class="fab fa-telegram"></i></a></p>
-            <p><a href="mailto:contact@company.com"><i class="fab fa-whatsapp"></i></a></p>
+            <p><a href="{{social.facebook}}"><i class="fab fa-facebook"></i></a></p>
+            <p><a href="{{social.instagram}}"><i class="fab fa-instagram"></i></a></p>
+            <p><a href="{{social.linkedin}}"><i class="fab fa-linkedin"></i></a></p>
+            <p><a href="{{social.youtube}}"><i class="fab fa-youtube"></i></a></p>
+            <p><a href="{{social.email}}"><i class="fas fa-envelope"></i></a></p>
+            <p><a href="{{social.twitter}}"><i class="fab fa-twitter"></i></a></p>
           </address>
 
           <!-- <div class="footer_menu">

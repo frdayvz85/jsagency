@@ -3,17 +3,13 @@
 {% block title %} Contact - Job Search Agency {% endblock %} 
 {% block content %}
 
-<section class="contact-header-wrapper">
-  <div class="container">
-    <div class="text-center">
-      <h1>Contact Us</h1>
-      <div style="margin: 0 auto; width: 180px" class="line"></div>
-    </div>
-  </div>
-</section>
 
 <!-- CONTACT -->
-<section id="contact">
+<section id="contact" class="fix-section">
+  <div class="header-wrapper">
+    <h2 class="title title-contact">Contact</h2>
+     <div class="line"></div>
+</div>
   <div class="container">
     <div class="row">
       <div class="col-md-6 col-sm-12">
@@ -51,11 +47,10 @@
           <h4>{{contactInfo.address}}</h4>
         </div>
         <div class="contact-info">
-          <i class="fas fa-linkedin"></i>
-          <h4>{{contactInfo.address}}</h4>
+          <i class="fas fa-globe"></i>
+          <h4>Hungary</h4>
         </div>
       </div>
-
       <iframe
         style="margin-top: 24px; width: 100%; border: none"
         src="{{contactInfo.addressUrl}}"
