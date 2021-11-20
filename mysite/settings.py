@@ -163,6 +163,8 @@ MEDIA_ROOT = BASE_DIR / 'uploads'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 #...
 SITE_ID = 1
@@ -173,7 +175,7 @@ SITE_ID = 1
  
 CKEDITOR_JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'
  
-CKEDITOR_UPLOAD_PATH = 'images/'
+CKEDITOR_UPLOAD_PATH = DEFAULT_FILE_STORAGE
 CKEDITOR_IMAGE_BACKEND = "pillow"
  
 CKEDITOR_CONFIGS = {
@@ -204,5 +206,5 @@ DEFAULT_FROM_EMAIL = 'Job Search Agency Team <noreply@jobsearchagency.com>'
 
 
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 django_heroku.settings(locals())
