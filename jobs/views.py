@@ -15,6 +15,9 @@ from django.utils.text import slugify
 from .decorators import unauthenticated_user, allowed_users, admin_only
 from datetime import datetime, timedelta
 from django.utils import timezone
+from django.core.mail import send_mail
+from django.template import loader
+from django.core.files.storage import FileSystemStorage
 # from .filters import JobFilter
 # from user.forms import UserProfileForm
 
@@ -484,9 +487,44 @@ def jobDetail(request, slug):
     # employer = Employer.objects.filter(name = request.user.first_name +" "+ request.user.last_name)
     
     form = ApplicationFormu()
+    
     if request.method == 'POST':
         form = ApplicationFormu(request.POST, request.FILES or None )
         form1 = JobForm(request.POST or None, request.FILES or None)
+
+        #message
+        emailUser = request.user.email
+        emailEmployer = jobs.employer.user.email
+        jobTitle = jobs.jobtitle
+        coverLetter = request.POST['coverletter']
+        cV = request.FILES['cv']
+        # fs = FileSystemStorage()
+        # filename = fs.save(cV.name, cV)
+        # uploaded_file_path = fs.path(filename)
+        # print(uploaded_file_path)
+        # print(uploaded_file_path)
+
+        html_message = loader.render_to_string(
+            'messages/success.html',
+            {
+                'user_name':  request.user.email,
+                'position':jobTitle,
+                'coverletter':  coverLetter,
+                'cV':cV
+                
+            }
+        )
+       
+        print(emailUser)
+        send_mail(
+            jobTitle,
+            '',
+            emailUser,
+            [emailEmployer],
+            fail_silently=False,
+            html_message=html_message
+        )
+        
         employee = get_author(request.user)
         if form.is_valid():
             apply=form.save(commit=False)
