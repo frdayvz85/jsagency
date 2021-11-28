@@ -476,8 +476,12 @@ def jobs(request):
 
 def jobDetail(request, slug):
     jobs = get_object_or_404(Job, slug=slug)
-    if (request.user.employee):
+    appliedJobs=[]
+    if (request.user.employer):
+        pass
+    else:
         appliedJobs =Application.objects.filter(employee_id=request.user.employee, job_id_id=jobs.id).order_by('-timestamp')
+
     appliedJobss =Application.objects.all().order_by('-timestamp')
     print(appliedJobs)
     print(appliedJobss)

@@ -10,9 +10,13 @@
                     <div class="col-lg-3 col-md-3 col-xs-12">
                          <div>
                               <br>
-
-                              <img src="{{jobs.employer.company_logo.url}}" alt="" class="img-responsive wc-image">
-
+                              <div class="courses-image">
+                                   {% if jobs.employer.company_logo %}
+                                   <img src="{{jobs.employer.company_logo.url}}" alt="" class="img-responsive wc-image">
+                                   {% else %}
+                                   <img  class="img-responsive wc-image" src="{% static 'assets/images/companyLogo.jpg' %}" alt="Company logo"/>
+                                   {% endif %}
+                                   </div>
                               <br>
                          </div>
                     </div>

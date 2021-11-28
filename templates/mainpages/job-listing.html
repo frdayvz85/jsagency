@@ -87,7 +87,11 @@
                                    <div class="courses-thumb courses-thumb-secondary">
                                         <div class="courses-top">
                                              <div class="courses-image">
-                                                  <img src="{{job.employer.company_logo.url}}" class="img-responsive" alt="">
+                                             {% if job.employer.company_logo %}
+                                             <img  class="user-img" src="{{job.employer.company_logo.url}}" alt="Company logo"/>
+                                             {% else %}
+                                             <img  class="user-img" src="{% static 'assets/images/companyLogo.jpg' %}" alt="Company logo"/>
+                                             {% endif %}
                                              </div>
                                              <div class="courses-date">
                                                   <span title="Posted on"><i class="fa fa-calendar"></i> {{job.create_at|date:"d M Y"}}</span>
