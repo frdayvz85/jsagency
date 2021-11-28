@@ -588,6 +588,8 @@ section {
 }
 
 .courses-image {
+  width: 100%;
+  height: 300px;
   background: linear-gradient(to right, #202020, #101010);
 }
 
