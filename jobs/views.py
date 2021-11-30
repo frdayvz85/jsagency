@@ -476,15 +476,22 @@ def jobs(request):
 
 def jobDetail(request, slug):
     jobs = get_object_or_404(Job, slug=slug)
-    appliedJobs=[]
-    if (request.user.employer):
-        pass
-    else:
-        appliedJobs =Application.objects.filter(employee_id=request.user.employee, job_id_id=jobs.id).order_by('-timestamp')
+    print(request.user)
+    appliedJobsss=[]
+    if(request.user =="AnonymousUser"):
+        if (request.user.is_employer):
+            appliedJobsss = []
+        elif (request.user.is_employee):
+            appliedJobsss =Application.objects.filter(employee_id=request.user.employee, job_id_id=jobs.id).order_by('-timestamp')
+        else:
+            appliedJobsss=[]
+    elif(request.user =="AnonymousUser"):
+        appliedJobsss=[]
+   
 
-    appliedJobss =Application.objects.all().order_by('-timestamp')
-    print(appliedJobs)
-    print(appliedJobss)
+    # appliedJobss =Application.objects.all().order_by('-timestamp')
+    # print(appliedJobs)
+    # print(appliedJobss)
     # recent_jobs = Job.objects.all().order_by('-create_at')[:3]
     # user = request.user
     # form = EmployerForm(instance=user)
@@ -564,7 +571,7 @@ def jobDetail(request, slug):
         'jobs':jobs,
         # 'employer':employer,
         'form':form,
-        'appliedJobs':appliedJobs,
+        'appliedJobs':appliedJobsss,
         }
 
     return render(request, 'mainpages/job-details.html', context)
