@@ -36,12 +36,12 @@
 
                          <br>
 
-                         <label class="control-label">Lorem ipsum dolor sit amet</label>
+                         <label class="control-label">Recent posts</label>
 
                          <ul class="list">
-                              <li><a href="blog-post-details.html">Lorem ipsum dolor sit amet, consectetur adipisicing.</a></li>
-                              <li><a href="blog-post-details.html">Et animi voluptatem, assumenda enim, consectetur quaerat!</a></li>
-                              <li><a href="blog-post-details.html">Ducimus magni eveniet sit doloremque molestiae alias mollitia vitae.</a></li>
+                              {% for recent_post in recent_posts %}
+                              <li><a href="{{recent_post.get_absolute_url}}">{{recent_post.title|truncatechars:125}}</a></li>
+                             {% endfor %}
                          </ul>
                     </div>
 
