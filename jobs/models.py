@@ -96,7 +96,7 @@ class Employer(models.Model):
 
 class Employee(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="User")
-    profile_pic = models.ImageField(upload_to='images/', default="images/default.png", verbose_name="Profile image")
+    profile_pic = models.ImageField(upload_to='images/', verbose_name="Profile image")
     phonenumber = models.CharField(blank=True, max_length=200, verbose_name="Phone number")
     profession = models.CharField(blank=True, max_length=200, verbose_name="Profession")
 
